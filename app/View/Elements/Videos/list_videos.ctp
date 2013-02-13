@@ -1,0 +1,243 @@
+<?php 
+$objController->loadAditionalCss('bootstrap.components.nav_tabs_pills');
+$objController->loadAditionalCss('bootstrap.basecss.buttons');
+$objController->loadAditionalCss('bootstrap.basecss.labelsandbadges');
+$objController->loadAditionalCss('bootstrap.components.buttongroupsanddropdowns');
+$objController->loadAditionalCss('bootstrap.js_components.dropdowns');
+$objController->loadAditionalCss('bootstrap.base.icons');
+$objController->loadAditionalCss('bootstrap.js_components.tooltips');
+$objController->loadAditionalCss('popover_journallist');
+
+$objController->loadAditionalJs('bootstrap.tooltip');
+$objController->loadAditionalJs('bootstrap.dropdowns');
+$objController->loadAditionalJs('bootstrap.javascript.togglable_tabs.min');
+?>
+<script>
+$(document).ready(function(){
+	$('.ctooltip').tooltip();
+});
+</script>
+<div class="albumVideo" id="albumVideo<?php echo $sharingLevel; ?>">
+	<?php 
+	$objJournal->buildHasMany('Video');
+	if ( $objJournal->getVideosPerSharingLevel($sharingLevel) > 0 ) {
+	?>
+	<div id="alertIE"></div>
+	<script>
+		if ($.browser.msie) {
+			$('#alertIE').replaceWith("<div class=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" style=\"float:right\">x</button><strong>Warning!</strong> You may experience a few minor issues when viewing LivingAlpha using Internet Explorer.  For optimum results, we recommend using Chrome or Mozilla-Firefox.<br>Thank you for your understanding.</div></div");
+
+		}
+	</script>
+	<ul id="ulAlbumVideo<?php echo $sharingLevel; ?>">
+		<?php
+			foreach ( $objJournal->Video as $video ) : 
+				if ( $video->getAttr('sharing_level') == $sharingLevel ) {
+		?>
+		<li id="livideo_<?php echo $video->getID(); ?>">
+			<div>
+				<div id="video_<?php echo $video->getID(); ?>" class="videolist" style="background-image:url(<?php echo $video->getAttr('url').$video->getAttr('w375').".jpg"; ?>)">
+					<div id="videoOver<?php echo $video->getID(); ?>" style="display:none;background-color: rgba(0, 0, 2, 0.3);">
+						<div style="border-bottom:1px solid #fff;width:353px;line-height:25px">
+							<a href="javascript:;" id="videoDesc_<?php echo $video->getID() ; ?>" style="color: white; font-weight: bold; padding-left: 10px;">
+							<?php 
+								echo ($video->getAttr('description') == null ? 'Add a description...' : substr($video->getAttr('description'),0,30));
+							?>
+							</a>
+						</div>
+						<div id="videoActions_<?php echo $video->getID(); ?>" style="border-top:1px solid #fff;color:white;font-weight:bold;position:relative;top:187px;width:353px;height:28px;z-index:100;">
+							<div style="float:right;padding:3px 2px 0 0;">
+								<a href="javascript:;" id="btnDeleteVideo<?php echo $video->getID(); ?>"  style="padding:5px 5px 6px 5px;border-left:1px solid #fff">
+									<i class="icon-trash icon-white"></i>
+								</a>
+							</div>
+							<script>
+								$('#btnDeleteVideo<?php echo $video->getID(); ?>').click(function() {
+									  	$.ajax({
+							    			url: "<?php echo $this->Html->url(array('controller' => 'videos' ,'action' => 'delete', $video->getID(),$objJournal->getID())); ?>",
+							    			dataType: 'json',
+							    			type: "POST",
+							    			success: function(ajaxReturn,textStatus,xhr){
+								    			$("#livideo_<?php echo $video->getID(); ?>").css("display","none");
+								    			if ( ajaxReturn.error == 0 ) {
+							    			  		$('#albumVideo<?php echo $sharingLevel; ?>').replaceWith(ajaxReturn.content);	
+								    			}
+											}	  
+										});
+										
+								    	
+								});
+							</script>
+
+							<div style="float:left; padding:2px; border-right:1px solid #fff">
+								<div class="btn-group dropup">
+									<?php if ($sharingLevel == 2 ) { ?>
+									<button id="btnSharingLevel_<?php echo $video->getID() ; ?>" class="btn btn-success btn-mini dropdown-toggle" data-toggle="dropdown">G</button>
+									<?php } elseif ($sharingLevel == 1) { ?>
+									<button id="btnSharingLevel_<?php echo $video->getID() ; ?>" class="btn btn-primary btn-mini dropdown-toggle" data-toggle="dropdown">F</button>
+									<?php  } else { ?>
+									<button id="btnSharingLevel_<?php echo $video->getID() ; ?>" class="btn btn-danger btn-mini dropdown-toggle" data-toggle="dropdown">P</button>
+									<?php  } ?>
+									<ul class="dropdown-menu"  style="width:125px;">
+										<?php 
+						  					if ($sharingLevel != 2 && $objJournal->getVideosPerSharingLevel('2') < 2 ) { 
+										?>
+										<li style="color:green;height:25px; padding: 2px 5px;">
+											<a href="javascript:" id="btnSharingLevelG_<?php echo $video->getID() ; ?>" style="padding: 2px 5px; float:left; width: 125px; text-align:left">
+												<button class="btn btn-success btn-mini">
+													G
+												</button>
+												Move to Global
+											</a>
+										</li>
+										<?php 
+											} 
+											if ($sharingLevel != 1 && $objJournal->getVideosPerSharingLevel('1') < 2 ) { 
+										?>
+										<li style="color:blue;height:25px; padding: 2px 5px;">
+											<a href="javascript:" id="btnSharingLevelF_<?php echo $video->getID() ; ?>" style="padding: 2px 5px; float:left; width: 125px text-align:left">
+												<button  class="btn btn-primary btn-mini">
+													F
+												</button> 
+												Move to Friend
+											</a>
+										</li>
+										<?php
+											} 
+											if ($sharingLevel != 0  && $objJournal->getVideosPerSharingLevel('0') < 2 ) { 
+										?>
+										<li style="color:red;height:25px; padding: 2px 5px;">
+											<a href="javascript:" id="btnSharingLevelP_<?php echo $video->getID() ; ?>" style="padding: 2px 5px; float:left; width: 125px text-align:left">
+												<button  class="btn btn-danger btn-mini">
+													P
+												</button> 
+												Move to Private
+											</a>
+										</li>
+										<?php  
+											} 
+										?>
+									</ul>
+								</div>
+							</div>
+							<script>
+								$('#btnSharingLevelG_<?php echo $video->getID(); ?>').click(function() {
+									$.ajax({
+							    			  url: "<?php echo $this->Html->url(array('controller' => 'videos' ,'action' => 'saveSharingLevel', $video->getID(), '2', $sharingLevel)); ?>",
+							    			  dataType: 'json',
+							    			  type: "POST",
+							    			  success: function(ajaxReturn,textStatus,xhr){
+							    				  		$('#albumVideo<?php echo $sharingLevel; ?>').replaceWith(ajaxReturn.contentFrom);	
+							    				  		$('#albumVideo2').replaceWith(ajaxReturn.contentTo);	
+							    			  }
+							    		});
+								    	
+								});
+									
+								$('#btnSharingLevelF_<?php echo $video->getID(); ?>').click(function() {
+									$.ajax({
+										url: "<?php echo $this->Html->url(array('controller' => 'videos' ,'action' => 'saveSharingLevel', $video->getID(), '1', $sharingLevel)); ?>",
+						    				dataType: 'json',
+						   					type: "POST",
+						    				success: function(ajaxReturn,textStatus,xhr){
+							    				  		$('#albumVideo<?php echo $sharingLevel; ?>').replaceWith(ajaxReturn.contentFrom);	
+							    				  		$('#albumVideo1').replaceWith(ajaxReturn.contentTo);	
+						    				}
+						    		});
+							    	
+								});
+								
+								$('#btnSharingLevelP_<?php echo $video->getID(); ?>').click(function() {
+									$.ajax({
+							    			  url: "<?php echo $this->Html->url(array('controller' => 'videos' ,'action' => 'saveSharingLevel', $video->getID(), '0', $sharingLevel)); ?>",
+							    			  dataType: 'json',
+							    			  type: "POST",
+							    			  success: function(ajaxReturn,textStatus,xhr){
+							    				  		$('#albumVideo<?php echo $sharingLevel; ?>').replaceWith(ajaxReturn.contentFrom);	
+							    				  		$('#albumVideo0').replaceWith(ajaxReturn.contentTo);	
+							   			  	}
+							    		});
+								    	
+								});
+								
+							</script>
+							
+						</div>
+						<script> 
+							$(function () { 
+								
+								$("#videoDesc_<?php echo $video->getID() ; ?>").popover({
+										trigger 	: 'click',
+										title		: 'Description',
+										placement	: 'left',
+										html		: true,
+										content		: '<?php
+															$videodesc = "" ;
+															echo $this->Form->create('Video', array('action'=>'saveDesc')) ; 
+															echo $this->Form->input('id', array('type'=>'hidden','value'=>$video->getID()));
+															echo $this->Form->input('journal_id', array('type'=>'hidden','value'=>$objJournal->getID()));
+															echo $this->Form->input('description', array(
+																						'label'=>false,
+																						'div'=>false,
+																						'type'=>'text',
+																						'style'=>'padding:5px;margin-top:7px',
+																						'value'=>$video->getAttr('description')));
+															echo $this->Form->submit('Save', array('style'=>'padding:5px;float:right'));
+															echo $this->Form->end();
+														?>'
+								});
+							});  
+						</script>
+						<a href="javascript:" id="videoLghtBox_<?php echo $video->getID(); ?>">
+						<div style="position:relative;top:25px;width:353px; height:187px;"></div>
+						</a>
+						<script>
+							$('#videoLghtBox_<?php echo $video->getID(); ?>').click(function() {
+								if (!$.browser.msie) {
+								  	$.ajax({
+						    			  url: "<?php echo $this->Html->url(array('controller' => 'videos' ,'action' => 'video', $video->getID(), $objJournal->getID())); ?>",
+						    			  dataType: 'html',
+						    			  type: "POST",
+						    			  success: function(ajaxReturn,textStatus,xhr){
+						    				  $('#photoModal').modal("show");
+						    				  $('#modalContent').html(ajaxReturn);
+						    				  		//$('#lightbox').css('display','block');
+						   				  },
+						   				  beforeSend: function(){
+						   					$('#photoModal').modal("show");
+						   					$('#modalContent').html('Loading');
+						   				  }	  
+						    		});
+								}	
+							});
+						</script>
+					</div>
+				</div>
+				<script type="text/javascript">
+					$(function(){
+						$("#video_<?php echo $video->getID(); ?>").mouseover(function() {
+							$("#videoOver<?php echo $video->getID(); ?>").css("display","block");
+						}).mouseout(function() {
+							$("#videoOver<?php echo $video->getID(); ?>").css("display","none");
+						});
+					});
+				</script>
+			</div>
+		</li>
+		<?php 
+				}
+			endforeach; 
+		?>
+	</ul>
+	<?php 
+	} else {
+	?>
+	<div class="alert alert-block" style="text-align: justify">
+		<p>
+			You currently do not have any video uploaded for this Sharing Level. 	
+		</p>
+	</div>
+	<?php 
+	}
+	?>
+</div>

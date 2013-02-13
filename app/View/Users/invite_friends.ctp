@@ -1,0 +1,1 @@
+<?php echo $this->element('Users/invite_friends_body'); ?>

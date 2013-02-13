@@ -1,0 +1,14 @@
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js" type="text/javascript"></script>
+<div id="my-video"></div>
+<script type='text/javascript'>
+    jwplayer('my-video').setup({
+        file: '<?php echo $video['Video']['url'].$video['Video']['name'].".mp4"; ?>',
+        width: '530',
+        height: '400',
+        image: '<?php echo $video['Video']['url'].$video['Video']['w375'].".jpg"; ?>'
+    });
+</script>
+
+<br><br>
+
+<div class="clr"></div>

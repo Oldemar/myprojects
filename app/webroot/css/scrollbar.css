@@ -1,0 +1,54 @@
+/* NOTE: container div also specifies width and height (in head of demo) */
+div#wn { 
+    position:absolute; /* scroll area div must be positioned */
+   	width:468px; height:526px; /* width and height required. adjust to suit */
+    overflow:hidden; /* required! */
+	}
+div#scrollbar {
+    position:absolute;
+    /* include following if you don't want scrollbar hidden when insufficient content for scrolling */
+    /* visibility:visible !important; */ 
+    width:11px; height:170px;
+    right:0; /* at right edge in container div */
+    font-size:1px; /* for ie cooperation */
+    }
+div#scrollbar .up {
+    background-image:url('../img/scroll_top_aroww.png');
+    background-repeat: no-repeat;
+    width:19px; height:15px; /* specify width and height of your image */
+    position:absolute; top:0; left:-10px; z-index:1;
+    }
+div#scrollbar .down {
+    background-image:url('../img/scroll_bot_aroww.png');
+    background-repeat: no-repeat;
+    width:19px; height:15px; /* specify width and height of your image */
+    position:absolute; top:518px; left:-10px; z-index:1;
+    }
+div#scrollbar .track {
+    position:absolute; /* track must be positioned */
+    left:-3px;
+    top:6px; /* equal to height of .up image plus optional 1px for gap */
+    width:6px; 
+    height:520px; /* height of scrollbar minus 2 X image height minus optional 2px for gap */
+    background:#99A6BC;
+    }
+div#scrollbar .dragBar {
+    position:absolute; /* dragBar must be positioned */
+    background:url(../img/v_bar_scroll.png) 0 0 no-repeat; /* can use background-image if you like */
+    width:19px; 
+    height:64px !important; /* code auto-sizes */
+    /* height:20px !important;  use !important to prevent code from sizing dragBar according to amount of content */
+    top:1px; left:-7px; /* optional, small gap between track and dragBar */
+    }
+
+/* for clutzy draggers */
+div#scrollbar {
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    }
+
+
+/*css for my junrel view page -----------------------------------*/
+.midBottom div#scrollbar .track { height:170px; left:22px; /* height of scrollbar minus 2 X image height minus optional 2px for gap */}
+.midBottom div#scrollbar .down {top:166px; left:15px;}
+.midBottom div#scrollbar .up { left:15px; }	

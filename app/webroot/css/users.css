@@ -1,0 +1,156 @@
+@CHARSET "UTF-8";
+
+.employmentrow {
+	font-size: 13px;
+	padding-bottom: 2px;
+	padding-top: 2px;
+}
+.employmentrow .rightcolumn {
+	text-align: right;
+}
+
+.below {
+	margin-left: 0px;
+}
+
+.popinpt2 {
+	padding: 3px 4px;
+	border: 1px solid #8f9aa7;
+	font-size: 13px;
+	color: #505050;
+}
+
+input:-moz-placeholder,
+textarea:-moz-placeholder {
+  color: #cccccc;
+}
+
+input:-ms-input-placeholder,
+textarea:-ms-input-placeholder {
+  color: #cccccc;
+}
+
+input::-webkit-input-placeholder,
+textarea::-webkit-input-placeholder {
+  color: #cccccc;
+}
+
+.popinpt3{
+	padding: 3px 4px;
+	border: 1px solid #8f9aa7;
+	font-size: 13px;
+	color: #505050;
+	width: 500px;
+}
+
+.popinpt100{
+    border: 1px solid #8F9AA7;
+    color: #505050;
+    font-size: 13px;
+    padding: 3px 4px;
+    width: 100%;
+}
+
+.employmentrow label{
+	
+	display:block;
+}
+
+
+.buttons {
+    background: -moz-linear-gradient(center top , #447DD6, #3867AF) repeat scroll 0 0 #3867AF;
+    border-color: #3867AF;
+    color: #FFFFFF;
+    font-size: 14px;
+    margin-bottom: 1em;
+    margin-top: 0.5em;
+    padding: 8px 20px;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.5);
+    background-color: #3867AF;
+    cursor: pointer;
+}
+
+.itemrow{
+	padding-bottom: 20px;
+}
+
+.bodymessage{
+	
+	width: 500px;
+	
+}
+
+.invitebutton{
+	width: 99px;
+	margin-left: 22%;
+}
+
+.invitebutton a:hover{
+	color: #FFFFFF;
+}
+
+.invitebutton a{
+	color: #FFFFFF;
+}
+
+.pmodal {
+    font-size: 16px;
+    padding: 10px;
+    text-align: justify;
+}
+
+.contactus{
+	
+	padding: 24px 5px 5px 10px;
+	
+}
+
+.thumbnailimg{
+	
+	float: left;
+    padding-right: 9px;
+    width: 60px;
+}
+
+.jleft {
+	text-align: right;
+	padding: 2px 2px 2px 2px;
+}
+
+.jtop {
+
+	vertical-align: top;
+}
+
+.jrow {
+
+	margin-bottom: 5px;
+	margin-top: 5px;
+}
+
+.flist {
+	margin-left: 20px;
+	margin-top: 20px;
+	width: 490px;
+}
+								
+.gadd{
+	float: none;
+}	
+
+.bmargin {
+	margin-bottom: 2px;
+	margin-top: 2px;
+ 	height: 80px;
+}
+
+.flistindex{
+	margin-left: 20px;
+	margin-top: 70px;
+	width: 490px;	
+}
+
+#resultGroupSearch{
+	margin-top: 55px;
+}
+
